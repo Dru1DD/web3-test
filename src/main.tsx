@@ -1,15 +1,19 @@
 import { useWeb3Modal } from '@web3modal/wagmi/react'
-import {useAccount, useContractWrite } from "wagmi";
+import {useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
 import {contractABI} from "./contracts/test";
 
 export const Main = () => {
     const { open } = useWeb3Modal()
     const { address } = useAccount();
-    const { data, isLoading, isSuccess, write } = useContractWrite({
-        address: '0xeCB504D39723b0be0e3a9Aa33D646642D1051EE1',
+
+    const { config } = usePrepareContractWrite({
+        address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
         abi: contractABI,
-        functionName: 'feed'
+        functionName: 'approve',
+        account: address,
+        args: ['0x9f9A1f45DeAaCAC32859a69bdEE02Dec35839460', 1000000000000],
     })
+    const { data, isLoading, isSuccess, write } = useContractWrite(config)
 
     console.log("Data", data);
 
@@ -21,9 +25,7 @@ export const Main = () => {
 
                 { address ? (
                     <div className={"mt-5"}>
-                        <button className={"p-5 rounded-lg text-white bg-purple-800"} onClick={() => write({
-                            value: BigInt(16),
-                        })}>Feed</button>
+                        <button className={"p-5 rounded-lg text-white bg-purple-800"} onClick={() => write?.()}>Feed</button>
                         {isLoading && <div className={"text-white"}>Check Wallet</div>}
                         {isSuccess && <div className={"text-white"}>Transaction: {JSON.stringify(data)}</div>}
                     </div>
