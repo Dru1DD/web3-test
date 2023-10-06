@@ -1,7 +1,7 @@
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 
 import { WagmiConfig } from 'wagmi'
-import { arbitrum, mainnet } from 'wagmi/chains'
+import { arbitrum, mainnet, bsc } from 'wagmi/chains'
 import {Main} from "./main";
 
 const projectId = process.env.REACT_APP_WALLET_PROJECT_ID || ""
@@ -13,7 +13,7 @@ const metadata = {
     icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
-const chains = [mainnet, arbitrum]
+const chains = [mainnet, bsc, arbitrum]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
 
 createWeb3Modal({ wagmiConfig, projectId, chains })
